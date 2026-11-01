@@ -2,8 +2,8 @@
 
 **Product/project name:** PlanoVolt  
 
-**Version:** 1.0 — MVP  
-**Status:** Proposed for development  
+**Version:** 1.1 — MVP
+**Status:** Development implementation; professional pilot review pending
 **Platform:** Responsive web application, mobile-first  
 **Initial market:** Brazil  
 **Primary audience:** Electricians performing residential installations and small renovations
@@ -120,13 +120,13 @@ A professional electrician who:
 - Display alerts, blockers, and open items.
 - Generate a preliminary materials list.
 - Export the plan as a PDF.
+- Work offline after a successful initial application load, including saving and PDF export.
 
 **P1 — Desirable if it does not jeopardize launch**
 
 - Duplicate existing installations.
 - View explanations of the applied criteria.
 - Save the last set of technical preferences confirmed by the user.
-- Work offline after the initial application load.
 
 ### 4.2 Out of scope for the MVP
 
@@ -213,7 +213,7 @@ Interface rules:
 | Conductors | Fixed for MVP | Copper, 70 °C PVC |
 | Grouping information | Confirmation | Enough detail to apply the factor |
 
-For the first version, installation method B1 is the primary approved scenario. Other methods may be shown as unsupported until their rules are implemented and validated.
+The first version implements bounded reference arrangements for B1 (isolated conductors in circular conduit on a wall), B2 (multicore cable in circular conduit on a wall), and C (a single multicore cable fixed directly on a wall). Other arrangements remain unsupported. B1/B2 support comparison of independent and shared conduits; C does not. See `technical-spec.md` for exact coverage, source provenance, and pending engineering review.
 
 The application must not automatically classify an environment as 30 °C without confirmation. If an assumption is used for a preview, the assumed value must be displayed and verification must remain open.
 
@@ -480,7 +480,7 @@ This separation is required to support automated testing, auditing, and normativ
 
 ### 7.2 Normative basis
 
-The primary reference will be ABNT NBR 5410, in the edition applicable at launch.
+The development source supplied by the user is ABNT NBR 5410:2004, second edition, corrected 2008-03-17. Its identity, checksum, extraction checks, clause references and supported conditions are recorded in `technical-spec.md`. Current applicability must be established during professional pilot review; the filename is not evidence of currency.
 
 The product must also consider:
 
@@ -556,6 +556,7 @@ The last state does not certify the installation's overall safety. Installation 
 - Phase conductors: 2.5 mm².
 - PE conductor: 2.5 mm², subject to applicable conditions.
 - Candidate circuit breaker: 20 A, two-pole.
+- A 16 A two-pole device also satisfies the nominal-current inequality for 3,500/220 A. The development engine selects the smallest feasible catalog rating (16 A in this case). A 20 A example is not a mandatory rounding rule; actual product suitability, I2 coordination and manufacturer requirements remain separate checks.
 - Residual-current protection: selection and need to be verified for the application.
 - Voltage drop: calculated and displayed.
 - Short-circuit protection: pending verification.
@@ -619,7 +620,7 @@ Calculable results may be shown before all checks are complete, provided their s
 
 ### Platform
 
-Responsive web application, with an architecture ready for installation as a PWA.
+Responsive mobile-first PWA. After successful initial loading, bundled runtime assets and fonts must support offline reload, calculations, IndexedDB saving and client-side PDF export. Updates are offered between editing sessions; never replace an active calculation engine midway through editing.
 
 ### Performance
 
@@ -638,7 +639,7 @@ Responsive web application, with an architecture ready for installation as a PWA
 
 - Do not require customer personal data to perform calculations.
 - Do not transmit installation information to servers without need and notice.
-- Collect usage metrics only with appropriate privacy mechanisms.
+- No telemetry, analytics or installation-data network requests in this release.
 
 ### Quality and reliability
 
@@ -703,11 +704,11 @@ Deliverables:
 
 - Data model.
 - Calculation engine isolated from the interface.
-- Initial approved tables and rules.
+- Source-derived, versioned tables and rules with review status recorded separately.
 - Automated tests.
 - State and open-item model.
 
-**Gate to proceed:** Technical approval of implemented calculations.
+**Gate to proceed:** Traceable specification, explicit scope boundaries and passing developer reference tests. Professional approval is a pilot-release gate; complete development before that review.
 
 ### Phase 2 — Primary flow
 
@@ -730,6 +731,7 @@ Deliverables:
 - Preliminary materials list.
 - PDF report.
 - Installation history.
+- Offline cache, bundled fonts and update handling.
 
 **Gate to proceed:** Results are reproducible, traceable, and exportable.
 
@@ -743,7 +745,7 @@ Deliverables:
 - Validation of error and blocking cases.
 - Pilot release preparation.
 
-**Launch gate:** No critical calculation or safety-classification defects identified in approved tests.
+**Launch gate:** Professional review of independent reference cases and implemented rules, no unresolved critical calculation or safety-classification defects, and electrician usability testing. Automated tests do not substitute for professional approval. Development UI and PDFs identify the engine as awaiting validation.
 
 ---
 

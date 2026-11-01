@@ -1,0 +1,7 @@
+dist/
+node_modules/
+tmp/
+public/fonts/
+test-results/
+playwright-report/
+docs/plan.md
