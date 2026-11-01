@@ -13,7 +13,23 @@ npm run test:e2e
 
 Browser regression tests use locally installed Chrome (`channel: chrome`) and Poppler's `pdftotext` / `pdfinfo`. Install Chrome or adjust `playwright.config.ts` for your CI browser. Serve the production build to test offline operation; the development server intentionally does not register a service worker.
 
-Deploy `dist/` at the origin root as static files over HTTPS. React Router uses URL fragments, so installation identifiers stay in the browser and never enter HTTP request paths or hosting logs. Keep `/sw.js` revalidatable (for example `Cache-Control: no-cache`) and use immutable caching for hashed assets. Do not rewrite missing font/asset requests to HTML. `localhost` is suitable for local service-worker testing. No deployment has been performed.
+## Deployment
+
+Production URL: [planovolt.eduardomacedo.net](https://planovolt.eduardomacedo.net).
+
+The [Pages workflow](.github/workflows/deploy.yml) validates every push and pull request targeting `main`. On Ubuntu with Node.js 24, it installs locked dependencies with `npm ci`, runs unit tests, builds the production app, and runs the complete Playwright suite with Chrome and Poppler. Failed browser checks retain reports in the workflow's artifacts for seven days. Only a successful push to `main`, or a successful manual run on `main`, publishes the tested `dist/` artifact. Pull requests never deploy. No additional deployment secrets are required.
+
+Deployments use the `github-pages` environment and run one at a time without cancelling an active deployment. GitHub may replace intermediate queued deployments during rapid pushes. A failed build or test leaves the previously deployed site published. To recover from a faulty release, revert its commit on `main`; the revert goes through the same validation and deployment pipeline. The workflow can also be rerun from the repository's Actions tab.
+
+### Initial domain setup
+
+1. In repository **Settings → Pages**, select **GitHub Actions** as the build source and set the custom domain to `planovolt.eduardomacedo.net`.
+2. At the DNS provider for `eduardomacedo.net`, create a CNAME record named `planovolt` pointing to `eduardojunio.github.io` (without a scheme or repository path). Remove conflicting records for that hostname. If the provider offers a proxy, use DNS-only mode during GitHub validation and certificate issuance.
+3. In **Settings → Environments → github-pages**, allow deployments only from the `main` branch, without required reviewers.
+4. After DNS validation and certificate issuance finish, enable **Enforce HTTPS** in Pages settings. Propagation and certificate issuance may delay initial availability. Actions deployments configure the custom domain through Pages settings; no artifact `CNAME` file is required.
+5. Merge the workflow into `main` and follow its first successful run. Verify HTTPS, asset loading, hash-route refresh, offline readiness, and PDF export at the production URL. Verify the next push deploys automatically and offers the existing update prompt to an open client.
+
+The app serves static files at the custom domain's origin root; Vite's default base `/` is intentional. React Router uses URL fragments, so installation identifiers stay in the browser and never enter HTTP request paths or hosting logs. The service worker, manifest, and PDF font paths also assume this root deployment. GitHub Pages manages HTTP cache headers; this workflow does not configure them. `localhost` is suitable for local service-worker testing.
 
 ## Technical scope
 
