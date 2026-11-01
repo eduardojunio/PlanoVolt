@@ -1,5 +1,7 @@
 # PlanoVolt
 
+[![Validate and deploy Pages](https://github.com/eduardojunio/PlanoVolt/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/eduardojunio/PlanoVolt/actions/workflows/deploy.yml)
+
 Mobile-first, PT-BR circuit planning app. React/TypeScript, Vite, React Router, Dexie/IndexedDB, Zod, Vitest, Playwright and local jsPDF export. No backend, accounts, telemetry or cloud storage.
 
 ```sh
