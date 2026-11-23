@@ -172,18 +172,14 @@ small,
 .connection i.online {
   background: #699379;
 }
-.review-banner {
-  padding: 8px 20px;
-  text-align: center;
-  background: #eceee2;
-  border-top: 1px solid #e4e7da;
-  border-bottom: 1px solid #dfe4d3;
-  color: #58614c;
-  font-size: 11px;
-  letter-spacing: 0.1px;
-}
-.review-banner span {
-  margin-right: 7px;
+.beta-badge {
+  margin-left: 10px;
+  padding: 2px 7px;
+  background: #d9edb2;
+  color: #31533a;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
 }
 main {
   max-width: 1096px;
@@ -1068,11 +1064,6 @@ td small {
   .connection {
     font-size: 9px;
   }
-  .review-banner {
-    font-size: 9px;
-    padding: 8px 13px;
-    line-height: 1.7;
-  }
   main {
     padding: 28px 18px 38px;
   }
@@ -1326,9 +1317,6 @@ td small {
 }
 
 @media (max-width: 580px) {
-  .review-banner {
-    font-size: 10px;
-  }
   .hero-foot {
     font-size: 11px;
   }

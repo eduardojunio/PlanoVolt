@@ -51,4 +51,4 @@ Browser storage can be cleared or evicted. Export PDFs for human-readable copies
 
 ## Release status
 
-Development complete is distinct from pilot release. Engineering approval of source extraction, resistance assumptions, device selection, independent reference cases and classification remains pending. Physical mid-range Android performance and electrician usability testing remain pilot tasks. UI and PDFs retain the engine-review warning, even when an individual plan has all covered checks satisfied. This application does not issue compliance reports or certifications.
+The app is in beta. Engineering approval of source extraction, resistance assumptions, device selection, independent reference cases and classification remains pending. Physical mid-range Android performance and electrician usability testing remain pilot tasks. This application does not issue compliance reports or certifications.

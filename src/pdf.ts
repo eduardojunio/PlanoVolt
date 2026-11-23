@@ -57,11 +57,6 @@ export async function createPDF(snapshot: ExportSnapshot): Promise<jsPDF> {
   };
   line('PlanoVolt | Plano de circuito', true);
   line(
-    e.engineReview === 'pending'
-      ? 'DESENVOLVIMENTO - MOTOR AGUARDANDO VALIDAÇÃO PROFISSIONAL'
-      : 'Motor com revisão técnica registrada',
-  );
-  line(
     'Resumo de planejamento. Não constitui laudo, certificação ou aprovação integral da instalação.',
   );
   line(p.name || 'Instalação sem nome', true);
@@ -140,7 +135,7 @@ export async function createPDF(snapshot: ExportSnapshot): Promise<jsPDF> {
   line('Critérios, hipóteses e limitações', true);
   [...e.criteria, ...e.assumptions].forEach((t) => line(t));
   line(
-    `Motor ${e.engineVersion} | Regras ${e.rulesetVersion} | Revisão do motor: ${e.engineReview === 'pending' ? 'Pendente' : 'Revisado'}`,
+    `Motor ${e.engineVersion} | Regras ${e.rulesetVersion}`,
   );
   line(
     e.rulesetSource +

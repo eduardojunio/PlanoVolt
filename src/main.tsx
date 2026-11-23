@@ -207,15 +207,12 @@ function App() {
           </span>
           Plano<span>Volt</span>
         </Link>
+        <span className="badge beta-badge">Beta</span>
         <span className="connection">
           <i className={online ? 'online' : ''} />
           {online ? (offlineReady ? 'Disponível offline' : 'Neste dispositivo') : 'Sem conexão'}
         </span>
       </header>
-      <aside aria-label="Revisão técnica do motor" className="review-banner">
-        <span aria-hidden="true">◈</span> Versão de desenvolvimento · motor aguardando validação
-        profissional
-      </aside>
       <main>
         {error && (
           <div className="notice danger" role="alert">
@@ -1343,10 +1340,6 @@ function Results() {
           </p>
           <p>
             ID {p.id} · esquema {p.schemaVersion}
-          </p>
-          <p>
-            Motor aguardando validação profissional. Este plano não constitui laudo ou certificação
-            de conformidade.
           </p>
         </div>
       </section>

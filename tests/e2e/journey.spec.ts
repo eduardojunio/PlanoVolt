@@ -22,6 +22,12 @@ test('mobile oven journey, save/reopen, alternatives, offline reload/export, con
       requests.push(request.url());
   });
   await page.goto('/');
+  await expect(page.locator('.app-header .beta-badge')).toHaveText('Beta');
+  await expect(page.locator('.app-header .beta-badge')).toHaveCount(1);
+  await page.setViewportSize({ width: 320, height: 844 });
+  await expect(page.locator('.app-header .connection')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.setViewportSize({ width: 390, height: 844 });
   expect(
     (await new AxeBuilder({ page }).analyze()).violations.map((v) => ({
       id: v.id,
@@ -60,6 +66,8 @@ test('mobile oven journey, save/reopen, alternatives, offline reload/export, con
   await page.getByLabel('Temperatura ambiente').selectOption('30');
   await page.getByRole('link', { name: 'Continuar' }).click();
   await page.getByRole('link', { name: 'Ver resultados' }).click();
+  await expect(page.locator('.app-header .beta-badge')).toHaveText('Beta');
+  await expect(page.locator('.app-header .beta-badge')).toHaveCount(1);
   await expect(page.locator('.metrics')).toContainText('2,5');
   await expect(page.locator('.result-status')).toContainText('Dimensionamento preliminar');
   await expect(page.locator('.alternative').nth(1)).toContainText('Dados insuficientes');
@@ -87,6 +95,7 @@ test('mobile oven journey, save/reopen, alternatives, offline reload/export, con
   });
   await context.setOffline(true);
   await page.reload();
+  await expect(page.locator('.app-header .beta-badge')).toHaveText('Beta');
   await expect(page.locator('.metrics')).toContainText('2,5');
   await page.getByRole('link', { name: 'Editar equipamento' }).click();
   await page.getByLabel('Potência nominal').fill('4400');
@@ -105,7 +114,7 @@ test('mobile oven journey, save/reopen, alternatives, offline reload/export, con
   expect(text).toContain('Forno da cozinha');
   expect(text).toContain('4400');
   expect(text).toContain('20 A');
-  expect(text).toContain('AGUARDANDO VALIDAÇÃO');
+  expect(text).toContain('Motor 0.1.0 | Regras');
   expect(text).toContain('Prysmian');
   expect(requests).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
